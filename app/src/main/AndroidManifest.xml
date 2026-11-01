@@ -1,0 +1,58 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <queries>
+        <intent><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent>
+        <intent><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LEANBACK_LAUNCHER" /></intent>
+        <package android:name="com.xiaomi.mitv.settings" />
+        <package android:name="com.xiaomi.mitv.tvplayer" />
+        <package android:name="com.mitv.tvhome" />
+    </queries>
+    <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
+        android:banner="@drawable/banner" android:theme="@style/Theme.GuiZangTV"
+        android:allowBackup="false" android:supportsRtl="true">
+        <activity android:name=".FrameHomeActivity" android:exported="true"
+            android:launchMode="singleTask" android:stateNotNeeded="true"
+            android:excludeFromRecents="true" android:clearTaskOnLaunch="true"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|uiMode"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AppLibraryActivity" android:exported="false"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|uiMode" />
+        <activity android:name=".ClockActivity" android:exported="true"
+            android:screenOrientation="landscape" android:excludeFromRecents="true"
+            android:noHistory="true" android:launchMode="singleTask"
+            android:taskAffinity="io.github.op7418.lumatv.publicui.clock"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|uiMode" />
+        <receiver android:name=".ClockReceiver" android:exported="true"
+            android:permission="android.permission.DEVICE_POWER">
+            <intent-filter>
+                <action android:name="com.duokan.intent.action.show.screensaver" />
+                <action android:name="com.duokan.intent.action.exit.screensaver" />
+            </intent-filter>
+        </receiver>
+        <!-- Xiaomi's package-based startup hook resolves INFO before LAUNCHER.
+             Ordinary TV app-list entries still open FrameHomeActivity directly. -->
+        <activity android:name=".BootGateActivity" android:exported="true"
+            android:excludeFromRecents="true" android:noHistory="true" android:taskAffinity=""
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.INFO" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
